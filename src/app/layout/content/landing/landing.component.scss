@@ -1,0 +1,16 @@
+.landing-content {
+  width: 680px;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.accordion-header {
+  font: var(--header-font);
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.accordion-item,
+.accordion-button {
+  border-radius: 20px !important;
+}
