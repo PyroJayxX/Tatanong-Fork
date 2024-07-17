@@ -11,15 +11,23 @@
   #accordion="ngbAccordion"
   [closeOthers]="true"
 >
-  <div class="accordion-item" ngbAccordionItem>
+  <div
+    class="accordion-item search rounded-top"
+    ngbAccordionItem
+    [collapsed]="false"
+  >
     <h2 ngbAccordionHeader>
-      <button class="accordion-header" ngbAccordionButton>Search</button>
+      <button class="accordion-btn rounded-top" ngbAccordionButton>
+        Search
+      </button>
     </h2>
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <p>Enter your flashcard ID to begin (e.g., a012lm)</p>
-          <div>
+          <p class="input-subtext">
+            Enter your flashcard ID to begin (e.g., a012lm)
+          </p>
+          <div class="input-bar">
             <input type="text" placeholder="Flashcard Search ID..." />
             <button><img src="/images/search.png" alt="Search" /></button>
           </div>
@@ -27,15 +35,17 @@
       </div>
     </div>
   </div>
-  <div class="accordion-item" ngbAccordionItem>
+  <div class="accordion-item edit" ngbAccordionItem>
     <h2 ngbAccordionHeader>
-      <button class="accordion-header" ngbAccordionButton>Edit</button>
+      <button class="accordion-btn" ngbAccordionButton>Edit</button>
     </h2>
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <p>Enter your flashcard ID to edit (e.g., b32alm)</p>
-          <div>
+          <p class="input-subtext">
+            Enter your flashcard ID to edit (e.g., b32alm)
+          </p>
+          <div class="input-bar">
             <input type="text" placeholder="Flashcard Edit ID..." />
             <button><img src="/images/edit.png" alt="Search" /></button>
           </div>
@@ -43,17 +53,19 @@
       </div>
     </div>
   </div>
-  <div class="accordion-item" ngbAccordionItem>
+  <div class="accordion-item create rounded-bottom" ngbAccordionItem>
     <h2 ngbAccordionHeader>
-      <button class="accordion-header" ngbAccordionButton>Create</button>
+      <button class="accordion-btn rounded-bottom" ngbAccordionButton>
+        Create
+      </button>
     </h2>
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <p>
+          <p class="input-subtext">
             Enter your flashcard name to create a new set (e.g., 'Science 101')
           </p>
-          <div>
+          <div class="input-bar">
             <input type="text" placeholder="Flashcard Name..." />
             <button><img src="/images/create.png" alt="Search" /></button>
           </div>
@@ -61,52 +73,6 @@
       </div>
     </div>
   </div>
+  <div></div>
+  <!-- Dummy div to fix the accordion bug -->
 </div>
-
-<!-- <div class="cards-container ngbAccordion">
-  <section ngbAccordionItem>
-    <div ngbAccordionHeader>
-      Search
-      <span
-        ><button><img src="/images/expanded.png" alt="Expand" /></button
-      ></span>
-    </div>
-    <div>
-      <p>Enter your flashcard ID to begin (e.g., a012lm)</p>
-      <div>
-        <input type="text" placeholder="Flashcard Search ID..." />
-        <button><img src="/images/search.png" alt="Search" /></button>
-      </div>
-    </div>
-  </section>
-  <section>
-    <div>
-      Edit
-      <span
-        ><button><img src="/images/to-expand.png" alt="Expand" /></button
-      ></span>
-    </div>
-    <div>
-      <p>Enter your flashcard ID to edit (e.g., b32alm)</p>
-      <div>
-        <input type="text" placeholder="Flashcard Edit ID..." />
-        <button><img src="/images/edit.png" alt="Search" /></button>
-      </div>
-    </div>
-  </section>
-  <section>
-    <div>
-      Create
-      <span
-        ><button><img src="/images/to-expand.png" alt="Expand" /></button
-      ></span>
-    </div>
-    <div>
-      <p>Enter your flashcard name to create a new set (e.g., 'Science 101')</p>
-      <div>
-        <input type="text" placeholder="Flashcard Name..." />
-        <button><img src="/images/create.png" alt="Search" /></button>
-      </div>
-    </div>
-  </section>
-</div> -->

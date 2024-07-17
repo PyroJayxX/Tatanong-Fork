@@ -1,16 +1,134 @@
+.landing-header,
+.landing-subtext {
+  color: #fff;
+}
+
+.landing-header,
+.landing-subtext,
+.accordion-btn {
+  font: var(--font-header);
+}
+
+.input-subtext,
+input,
+::placeholder,
+.accordion-btn {
+  color: #000;
+}
+
+.landing-header {
+  font-weight: 900;
+  font-size: 64px;
+
+  span {
+    color: #d13775;
+  }
+}
+
+.landing-subtext {
+  font-size: 20px;
+  font-weight: 400;
+}
+
 .landing-content {
   width: 680px;
   margin: 0 auto;
-  border-radius: 50%;
+  background-color: none;
 }
 
-.accordion-header {
-  font: var(--header-font);
-  font-weight: bold;
+.accordion-btn {
+  font-weight: 700;
   font-size: 50px;
 }
 
-.accordion-item,
-.accordion-button {
-  border-radius: 20px !important;
+.input-subtext {
+  font: var(--font-common);
+  font-size: 1rem;
+}
+
+.input-bar {
+  background-color: #f1f1f1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  input {
+    background: none;
+    border: none;
+    width: 100%;
+    margin-right: 10px;
+    outline: none;
+    font: var(--font-common);
+    font-weight: bold;
+  }
+
+  ::placeholder {
+    opacity: 0.5;
+  }
+
+  button {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+  }
+
+  button img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.accordion-body {
+  padding-top: 0;
+}
+
+.accordion-item {
+  border: 0 solid #000;
+}
+
+.accordion {
+  --bs-accordion-btn-padding-x: 1.5rem;
+  --bs-accordion-btn-padding-y: 1rem;
+  --bs-accordion-body-padding-x: 1.5rem;
+  --bs-accordion-body-padding-y: 1.5rem;
+  --bs-accordion-btn-bg: #ffc0d3;
+  --bs-accordion-bg: #524a4e;
+  --bs-accordion-btn-focus-box-shadow: none;
+}
+
+.accordion .search,
+.accordion-item.search {
+  --bs-accordion-btn-bg: #f6cd35;
+  --bs-accordion-active-bg: #f6cd35;
+  background-color: var(--bs-accordion-btn-bg);
+}
+
+.accordion .edit,
+.accordion-item.edit {
+  --bs-accordion-btn-bg: #d13775;
+  --bs-accordion-active-bg: #d13775;
+  background-color: var(--bs-accordion-btn-bg);
+}
+
+.accordion .create,
+.accordion-item.create {
+  --bs-accordion-btn-bg: #26ace1;
+  --bs-accordion-active-bg: #26ace1;
+  background-color: var(--bs-accordion-btn-bg);
+}
+
+.accordion-button:not(.collapsed) {
+  box-shadow: none;
+}
+
+.accordion-button::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' fill='currentColor' class='bi bi-plus' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");
+  transition: all 0.5s;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' fill='currentColor' class='bi bi-dash' viewBox='0 0 16 16'%3E%3Cpath d='M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z'/%3E%3C/svg%3E");
 }
