@@ -1,5 +1,7 @@
 <div>
-  <h1 class="landing-header">Hali na sa <span>TATANONG!</span></h1>
+  <h1 id="landing-header" class="landing-header">
+    Hali na sa <span>TATANONG!</span>
+  </h1>
   <p class="landing-subtext">
     Enhance your study sessions with our interactive flashcards.
   </p>
@@ -17,7 +19,11 @@
     [collapsed]="false"
   >
     <h2 ngbAccordionHeader>
-      <button class="accordion-btn rounded-top" ngbAccordionButton>
+      <button
+        class="accordion-btn rounded-top"
+        ngbAccordionButton
+        (click)="toggleSearchBar()"
+      >
         Search
       </button>
     </h2>
@@ -28,7 +34,12 @@
             Enter your flashcard ID to begin (e.g., a012lm)
           </p>
           <div class="input-bar">
-            <input type="text" placeholder="Flashcard Search ID..." />
+            <input
+              id="search_bar"
+              autofocus
+              type="text"
+              placeholder="Flashcard Search ID..."
+            />
             <button><img src="/images/search.png" alt="Search" /></button>
           </div>
         </ng-template>
@@ -37,7 +48,13 @@
   </div>
   <div class="accordion-item edit" ngbAccordionItem>
     <h2 ngbAccordionHeader>
-      <button class="accordion-btn" ngbAccordionButton>Edit</button>
+      <button
+        class="accordion-btn"
+        ngbAccordionButton
+        (click)="toggleEditBar()"
+      >
+        Edit
+      </button>
     </h2>
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
@@ -46,7 +63,11 @@
             Enter your flashcard ID to edit (e.g., b32alm)
           </p>
           <div class="input-bar">
-            <input type="text" placeholder="Flashcard Edit ID..." />
+            <input
+              id="edit_bar"
+              type="text"
+              placeholder="Flashcard Edit ID..."
+            />
             <button><img src="/images/edit.png" alt="Search" /></button>
           </div>
         </ng-template>
@@ -55,7 +76,11 @@
   </div>
   <div class="accordion-item create rounded-bottom" ngbAccordionItem>
     <h2 ngbAccordionHeader>
-      <button class="accordion-btn rounded-bottom" ngbAccordionButton>
+      <button
+        class="accordion-btn rounded-bottom"
+        ngbAccordionButton
+        (click)="toggleCreateBar()"
+      >
         Create
       </button>
     </h2>
@@ -66,7 +91,11 @@
             Enter your flashcard name to create a new set (e.g., 'Science 101')
           </p>
           <div class="input-bar">
-            <input type="text" placeholder="Flashcard Name..." />
+            <input
+              id="create_bar"
+              type="text"
+              placeholder="Flashcard Name..."
+            />
             <button><img src="/images/create.png" alt="Search" /></button>
           </div>
         </ng-template>
