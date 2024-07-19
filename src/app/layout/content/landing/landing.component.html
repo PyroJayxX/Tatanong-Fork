@@ -67,8 +67,11 @@
               id="edit_bar"
               type="text"
               placeholder="Flashcard Edit ID..."
+              (submit)="fetchFlashcard()"
             />
-            <button><img src="/images/edit.png" alt="Search" /></button>
+            <button (submit)="fetchFlashcard()">
+              <img src="/images/edit.png" alt="Search" />
+            </button>
           </div>
         </ng-template>
       </div>

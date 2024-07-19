@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlashcardService } from '../../../service/flashcard.service';
 
 @Component({
   selector: 'app-landing',
@@ -10,6 +11,8 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './landing.component.scss',
 })
 export class LandingComponent {
+  constructor(private FlashcardService: FlashcardService) {}
+
   landingHeader: HTMLElement | null = null;
   landingSpan: HTMLElement | null = null;
   searchBar: HTMLElement | null = null;
@@ -43,5 +46,22 @@ export class LandingComponent {
 
     this.createBar?.focus();
     this.landingSpan.style.color = '#26ace1';
+  }
+
+  fetchFlashcard() {
+    this.searchBar = document.getElementById('search_bar');
+    const searchID: string = this.searchBar?.textContent || '';
+
+    this.FlashcardService.getFlashcardDeck(
+      `http://localhost:5000/api/cardset/${searchID}`,
+      {}
+    ).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }
