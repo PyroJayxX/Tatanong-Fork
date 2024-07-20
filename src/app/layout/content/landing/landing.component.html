@@ -74,7 +74,7 @@
               placeholder="Flashcard Edit ID..."
             />
             <button>
-              <img src="/images/edit.png" alt="Search" />
+              <img src="/images/edit.png" alt="Edit" />
             </button>
           </div>
         </ng-template>
@@ -98,12 +98,15 @@
             Enter your flashcard name to create a new set (e.g., 'Science 101')
           </p>
           <div class="input-bar">
-            <input
-              id="create_bar"
-              type="text"
-              placeholder="Flashcard Name..."
-            />
-            <button><img src="/images/create.png" alt="Search" /></button>
+            <form (submit)="createFlashcard($event)">
+              <input
+                id="create_bar"
+                type="text"
+                name="flashcard_name"
+                placeholder="Flashcard Name..."
+              />
+              <button><img src="/images/create.png" alt="Create" /></button>
+            </form>
           </div>
         </ng-template>
       </div>
