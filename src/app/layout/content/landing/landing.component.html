@@ -34,13 +34,18 @@
             Enter your flashcard ID to begin (e.g., a012lm)
           </p>
           <div class="input-bar">
-            <input
-              id="search_bar"
-              autofocus
-              type="text"
-              placeholder="Flashcard Search ID..."
-            />
-            <button><img src="/images/search.png" alt="Search" /></button>
+            <form (submit)="fetchFlashcard($event)">
+              <input
+                id="search_bar"
+                autofocus
+                name="searchID"
+                type="text"
+                placeholder="Flashcard Search ID..."
+              />
+              <button type="submit">
+                <img src="/images/search.png" alt="Search" />
+              </button>
+            </form>
           </div>
         </ng-template>
       </div>
@@ -67,9 +72,8 @@
               id="edit_bar"
               type="text"
               placeholder="Flashcard Edit ID..."
-              (submit)="fetchFlashcard()"
             />
-            <button (submit)="fetchFlashcard()">
+            <button>
               <img src="/images/edit.png" alt="Search" />
             </button>
           </div>

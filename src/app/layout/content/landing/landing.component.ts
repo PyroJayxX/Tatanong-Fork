@@ -48,14 +48,14 @@ export class LandingComponent {
     this.landingSpan.style.color = '#26ace1';
   }
 
-  fetchFlashcard() {
+  fetchFlashcard(event: Event) {
+    event.preventDefault();
     this.searchBar = document.getElementById('search_bar');
-    const searchID: string = this.searchBar?.textContent || '';
+    const searchID: string = (event.target as HTMLFormElement)['searchID']
+      ?.value;
+    const testString: string = `http://localhost:5000/api/cardset/${searchID}`;
 
-    this.FlashcardService.getFlashcardDeck(
-      `http://localhost:5000/api/cardset/${searchID}`,
-      {}
-    ).subscribe({
+    this.FlashcardService.getFlashcardDeck(testString, {}).subscribe({
       next: (data) => {
         console.log(data);
       },
