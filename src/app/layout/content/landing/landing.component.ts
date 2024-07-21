@@ -62,22 +62,75 @@ export class LandingComponent {
     event.preventDefault();
     const searchID: string = (event.target as HTMLFormElement)['searchID']
       ?.value;
-    const apiUrl: string = `http://localhost:5000/api/cardset/${searchID}`;
+    const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
 
     this.FlashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
-      next: (data) => {
+      next: (data: any) => {
         console.log(data);
       },
       error: (error) => {
+        alert('Flashcard deck not found'); // TODO: Create a 404 page
         console.log(error);
       },
     });
   }
 
+  checkSearchID(searchID: string): boolean {
+    let result: boolean = true;
+    const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
+
+    this.FlashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        result = true;
+      },
+      error: (error) => {
+        // if not found
+        console.log(error);
+        result = false;
+      },
+    });
+
+    return result;
+  }
+
+  checkEditID(editID: string): boolean {
+    let result: boolean = true;
+    const apiUrl: string = `http://localhost:5000/api/cardset/edit/${editID}`;
+
+    this.FlashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        result = true;
+      },
+      error: (error) => {
+        // if not found
+        console.log(error);
+        result = false;
+      },
+    });
+
+    return result;
+  }
+
   createFlashcard(event: Event) {
     event.preventDefault();
-    this.flashcardTemplate.searchID = this.generateRandomId();
-    this.flashcardTemplate.editID = this.generateRandomId();
+    let isUnique: boolean = false;
+
+    while (!isUnique) {
+      this.flashcardTemplate.searchID = this.generateRandomId(6);
+      this.flashcardTemplate.editID = this.generateRandomId(8);
+
+      const searchIDExists = this.checkSearchID(
+        this.flashcardTemplate.searchID
+      );
+      const editIDExists = this.checkEditID(this.flashcardTemplate.editID);
+
+      if (!searchIDExists && !editIDExists) {
+        isUnique = true;
+      }
+    }
+
     this.flashcardTemplate.title = (event.target as HTMLFormElement)[
       'flashcard_name'
     ]?.value;
@@ -97,10 +150,10 @@ export class LandingComponent {
     });
   }
 
-  generateRandomId(): string {
+  generateRandomId(length: number): string {
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let randomId = '';
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
       randomId += characters[randomIndex];
     }
