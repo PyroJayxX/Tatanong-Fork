@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlashcardService } from '../../../service/flashcard.service';
 import { FlashcardDeck, Card } from '../../../../types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -12,7 +13,10 @@ import { FlashcardDeck, Card } from '../../../../types';
   styleUrl: './landing.component.scss',
 })
 export class LandingComponent {
-  constructor(private FlashcardService: FlashcardService) {}
+  constructor(
+    private flashcardService: FlashcardService,
+    private router: Router
+  ) {}
 
   landingHeader: HTMLElement | null = null;
   landingSpan: HTMLElement | null = null;
@@ -64,22 +68,27 @@ export class LandingComponent {
       ?.value;
     const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
 
-    this.FlashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+    this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
         console.log(data);
+        this.passToView(searchID);
       },
       error: (error) => {
-        alert('Flashcard deck not found'); // TODO: Create a 404 page
+        alert('Flashcard deck not found'); // TODO: Create a 404 page and redirect to it
         console.log(error);
       },
     });
+  }
+
+  passToView(searchID: any) {
+    this.router.navigate(['/view', searchID]);
   }
 
   checkSearchID(searchID: string): boolean {
     let result: boolean = true;
     const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
 
-    this.FlashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+    this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
         console.log(data);
         result = true;
@@ -98,7 +107,7 @@ export class LandingComponent {
     let result: boolean = true;
     const apiUrl: string = `http://localhost:5000/api/cardset/edit/${editID}`;
 
-    this.FlashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+    this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
         console.log(data);
         result = true;
@@ -137,17 +146,16 @@ export class LandingComponent {
 
     const apiUrl: string = `http://localhost:5000/api/new`;
 
-    this.FlashcardService.addFlashcardDeck(
-      apiUrl,
-      this.flashcardTemplate
-    ).subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.flashcardService
+      .addFlashcardDeck(apiUrl, this.flashcardTemplate)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   generateRandomId(length: number): string {

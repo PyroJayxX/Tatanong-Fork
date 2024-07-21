@@ -15,7 +15,13 @@ const routeConfig: Routes = [
     title: 'Flascard Construct',
   },
   {
+    // To be removed
     path: 'view',
+    component: ViewComponent,
+    title: 'View Flashcards',
+  },
+  {
+    path: 'view/:searchID',
     component: ViewComponent,
     title: 'View Flashcards',
   },
