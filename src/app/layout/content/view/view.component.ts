@@ -1,21 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FlashcardService } from '../../../service/flashcard.service';
+import { FlashcardDeck } from '../../../../types';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+
+const FILTER_PAG_REGEX = /[^0-9]/g;
 
 @Component({
   selector: 'app-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbPaginationModule],
   templateUrl: './view.component.html',
   styleUrl: './view.component.scss',
 })
 export class ViewComponent {
   searchID: string = '';
+  flashcard: FlashcardDeck = {} as FlashcardDeck;
 
   constructor(
     private flashcardService: FlashcardService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ngZone: NgZone // Add NgZone service
   ) {}
 
   ngOnInit() {
@@ -28,12 +34,29 @@ export class ViewComponent {
 
     this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
-        console.log(data);
+        this.ngZone.run(() => {
+          // Run the update inside the Angular zone
+          this.flashcard = data;
+        });
       },
       error: (error) => {
         alert('Flashcard deck not found'); // TODO: Create a 404 page and redirect to it
         console.log(error);
       },
     });
+  }
+
+  page = 1;
+
+  getPageSymbol(current: number) {
+    return ['A', 'B', 'C', 'D', 'E', 'F', 'G'][current - 1];
+  }
+
+  selectPage(page: string) {
+    this.page = parseInt(page, 10) || 1;
+  }
+
+  formatInput(input: HTMLInputElement) {
+    input.value = input.value.replace(FILTER_PAG_REGEX, '');
   }
 }
