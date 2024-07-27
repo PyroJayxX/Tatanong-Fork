@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FlashcardService } from '../../../service/flashcard.service';
@@ -21,7 +21,8 @@ export class ViewComponent {
   constructor(
     private flashcardService: FlashcardService,
     private route: ActivatedRoute,
-    private ngZone: NgZone // Add NgZone service
+    private ngZone: NgZone,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -37,11 +38,13 @@ export class ViewComponent {
         this.ngZone.run(() => {
           // Run the update inside the Angular zone
           this.flashcard = data;
+          console.log(this.flashcard.cards.length);
+          this.changeDetector.detectChanges();
         });
       },
       error: (error) => {
         alert('Flashcard deck not found'); // TODO: Create a 404 page and redirect to it
-        console.log(error);
+        console.log('HERE' + error);
       },
     });
   }

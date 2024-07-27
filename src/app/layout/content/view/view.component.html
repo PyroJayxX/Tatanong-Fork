@@ -1,18 +1,22 @@
 @if (flashcard) {
-<div>
+<div id="view-main">
   <div id="view-header">
-    <div class="view-title"></div>
-    <div class="view-id"></div>
+    <div class="view-title">{{ flashcard.title }}</div>
+    <div class="view-id">Search ID: {{ flashcard.searchID }}</div>
   </div>
   <div id="view-content">
-    <!-- Carousel -->
+    <div>
+      <div
+        *ngFor="let card of flashcard.cards; let i = index"
+        [ngClass]="{ active: i === 0 }"
+      >
+        <div>{{ card.term }}</div>
+        <div>{{ card.description }}</div>
+      </div>
+    </div>
   </div>
   <div id="view-pager">
-    <ngb-pagination
-      [collectionSize]="70"
-      [(page)]="page"
-      [boundaryLinks]="true"
-    >
+    <ngb-pagination [collectionSize]="7" [(page)]="page" [boundaryLinks]="true">
       <ng-template ngbPaginationPages let-page let-pages="pages">
         @if (pages.length > 0) {
         <li class="ngb-custom-pages-item">

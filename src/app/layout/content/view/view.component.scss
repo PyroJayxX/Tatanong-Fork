@@ -1,0 +1,40 @@
+#view-main {
+  background-color: #f2f2f2;
+  width: 80vw;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+#view-header {
+  background-color: #f6cd35;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#view-content {
+  padding: 1.5rem;
+}
+
+#view-pager,
+#view-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.view-title,
+.view-id {
+  font-family: var(--font-header);
+}
+
+.view-title {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.view-id {
+  font-size: 1rem;
+  font-weight: 400;
+}
