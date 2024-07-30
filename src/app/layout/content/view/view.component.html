@@ -5,18 +5,29 @@
     <div class="view-id">Search ID: {{ flashcard.searchID }}</div>
   </div>
   <div id="view-content">
-    <div>
-      <div
-        *ngFor="let card of flashcard.cards; let i = index"
-        [ngClass]="{ active: i === 0 }"
-      >
-        <div>{{ card.term }}</div>
-        <div>{{ card.description }}</div>
-      </div>
-    </div>
+    <ngb-carousel
+      #carousel
+      [interval]="0"
+      [showNavigationIndicators]="showNavigationIndicators"
+    >
+      <ng-template ngbSlide *ngFor="let card of flashcard.cards; let i = index">
+        <div class="card-container">
+          <div class="carousel-caption">
+            <h3>{{ card.term }}</h3>
+          </div>
+          <div class="carousel-description">
+            <h3>{{ card.description }}</h3>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-carousel>
   </div>
   <div id="view-pager">
-    <ngb-pagination [collectionSize]="7" [(page)]="page" [boundaryLinks]="true">
+    <ngb-pagination
+      [collectionSize]="flashcard.cards.length * 10"
+      [(page)]="page"
+      [boundaryLinks]="true"
+    >
       <ng-template ngbPaginationPages let-page let-pages="pages">
         @if (pages.length > 0) {
         <li class="ngb-custom-pages-item">
@@ -55,3 +66,13 @@
   </div>
 </div>
 }
+
+<!-- <div>
+  <div
+    *ngFor="let card of flashcard.cards; let i = index"
+    [ngClass]="{ active: i === 0 }"
+  >
+    <div>{{ card.term }}</div>
+    <div>{{ card.description }}</div>
+  </div>
+</div> -->

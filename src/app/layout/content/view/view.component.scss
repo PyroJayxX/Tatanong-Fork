@@ -38,3 +38,17 @@
   font-size: 1rem;
   font-weight: 400;
 }
+
+.carousel {
+  background-color: #1f64cd;
+  width: 100%;
+  height: 500px;
+}
+
+.card-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}

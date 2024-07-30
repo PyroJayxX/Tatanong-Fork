@@ -3,27 +3,36 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FlashcardService } from '../../../service/flashcard.service';
 import { FlashcardDeck } from '../../../../types';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbPaginationModule,
+  NgbCarouselModule,
+  NgbCarouselConfig,
+} from '@ng-bootstrap/ng-bootstrap';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 
 @Component({
   selector: 'app-view',
   standalone: true,
-  imports: [CommonModule, NgbPaginationModule],
+  imports: [CommonModule, NgbPaginationModule, NgbCarouselModule],
   templateUrl: './view.component.html',
   styleUrl: './view.component.scss',
 })
 export class ViewComponent {
   searchID: string = '';
   flashcard: FlashcardDeck = {} as FlashcardDeck;
+  page: number = 1;
+  showNavigationIndicators: boolean = false;
 
   constructor(
     private flashcardService: FlashcardService,
     private route: ActivatedRoute,
     private ngZone: NgZone,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    private changeDetector: ChangeDetectorRef,
+    private config: NgbCarouselConfig
+  ) {
+    config.showNavigationIndicators = false;
+  }
 
   ngOnInit() {
     this.searchID = this.route.snapshot.paramMap.get('searchID') as string;
@@ -48,8 +57,6 @@ export class ViewComponent {
       },
     });
   }
-
-  page = 1;
 
   getPageSymbol(current: number) {
     return ['A', 'B', 'C', 'D', 'E', 'F', 'G'][current - 1];
