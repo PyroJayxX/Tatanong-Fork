@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
-import { FlashcardService } from '../../../service/flashcard.service';
+import { FlashcardService, HOST_URL } from '../../../service/flashcard.service';
 import { FlashcardDeck, Card } from '../../../../types';
 import { Router } from '@angular/router';
 
@@ -66,7 +66,7 @@ export class LandingComponent {
     event.preventDefault();
     const searchID: string = (event.target as HTMLFormElement)['searchID']
       ?.value;
-    const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
+    const apiUrl: string = HOST_URL + `/api/cardset/search/${searchID}`;
 
     this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
@@ -86,7 +86,7 @@ export class LandingComponent {
 
   checkSearchID(searchID: string): boolean {
     let result: boolean = true;
-    const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
+    const apiUrl: string = HOST_URL + `/api/cardset/search/${searchID}`;
 
     this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
@@ -105,7 +105,7 @@ export class LandingComponent {
 
   checkEditID(editID: string): boolean {
     let result: boolean = true;
-    const apiUrl: string = `http://localhost:5000/api/cardset/edit/${editID}`;
+    const apiUrl: string = HOST_URL + `/api/cardset/edit/${editID}`;
 
     this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
@@ -144,7 +144,7 @@ export class LandingComponent {
       'flashcard_name'
     ]?.value;
 
-    const apiUrl: string = `http://localhost:5000/api/new`;
+    const apiUrl: string = HOST_URL + `/api/new`;
 
     this.flashcardService
       .addFlashcardDeck(apiUrl, this.flashcardTemplate)

@@ -4,6 +4,7 @@ import { ApiService } from './api.service';
 @Injectable({
   providedIn: 'root',
 })
+
 export class FlashcardService {
   constructor(private apiService: ApiService) {}
 
@@ -23,3 +24,5 @@ export class FlashcardService {
     return this.apiService.delete(url, {});
   };
 }
+
+export const HOST_URL = 'https://tatanong-server.vercel.app';

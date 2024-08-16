@@ -1,15 +1,13 @@
-import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FlashcardService } from '../../../service/flashcard.service';
+import { FlashcardService, HOST_URL } from '../../../service/flashcard.service';
 import { FlashcardDeck } from '../../../../types';
 import {
+  NgbCarousel,
   NgbPaginationModule,
   NgbCarouselModule,
-  NgbCarouselConfig,
 } from '@ng-bootstrap/ng-bootstrap';
-
-const FILTER_PAG_REGEX = /[^0-9]/g;
 
 @Component({
   selector: 'app-view',
@@ -19,20 +17,21 @@ const FILTER_PAG_REGEX = /[^0-9]/g;
   styleUrl: './view.component.scss',
 })
 export class ViewComponent {
+  @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
+
   searchID: string = '';
   flashcard: FlashcardDeck = {} as FlashcardDeck;
   page: number = 1;
   showNavigationIndicators: boolean = false;
+  showDescription: boolean[] = [];
+  isFlipped: boolean[] = [];
 
   constructor(
     private flashcardService: FlashcardService,
     private route: ActivatedRoute,
     private ngZone: NgZone,
-    private changeDetector: ChangeDetectorRef,
-    private config: NgbCarouselConfig
-  ) {
-    config.showNavigationIndicators = false;
-  }
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.searchID = this.route.snapshot.paramMap.get('searchID') as string;
@@ -40,33 +39,58 @@ export class ViewComponent {
   }
 
   loadContent(searchID: string): void {
-    const apiUrl: string = `http://localhost:5000/api/cardset/search/${searchID}`;
+    const apiUrl: string = HOST_URL + `/api/cardset/search/${searchID}`;
 
     this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
         this.ngZone.run(() => {
-          // Run the update inside the Angular zone
           this.flashcard = data;
-          console.log(this.flashcard.cards.length);
+          // Initialize arrays after data is loaded
+          this.showDescription = new Array(this.flashcard.cards.length).fill(
+            false
+          );
+          this.isFlipped = new Array(this.flashcard.cards.length).fill(false);
           this.changeDetector.detectChanges();
         });
       },
       error: (error) => {
-        alert('Flashcard deck not found'); // TODO: Create a 404 page and redirect to it
+        alert('Flashcard deck not found');
         console.log('HERE' + error);
       },
     });
+  }
+
+  toggleDescription(index: number) {
+    this.showDescription[index] = !this.showDescription[index];
+  }
+
+  toggleFlip(index: number) {
+    this.isFlipped[index] = !this.isFlipped[index];
+  }
+
+  updateCarousel() {
+    const slideIndex = (this.page - 1) % this.flashcard.cards.length;
+    this.carousel.select(slideIndex.toLocaleString()); // Directly pass slide index as a number
   }
 
   getPageSymbol(current: number) {
     return ['A', 'B', 'C', 'D', 'E', 'F', 'G'][current - 1];
   }
 
-  selectPage(page: string) {
-    this.page = parseInt(page, 10) || 1;
+  selectPage(pageString: string) {
+    const page = parseInt(pageString, 10);
+    if (!isNaN(page) && page > 0 && page <= this.flashcard.cards.length) {
+      this.page = page;
+      this.updateCarousel();
+    }
   }
 
   formatInput(input: HTMLInputElement) {
-    input.value = input.value.replace(FILTER_PAG_REGEX, '');
+    const value = parseInt(input.value, 10);
+    if (value > 0 && value <= this.flashcard.cards.length) {
+      input.value = value.toString();
+    } else {
+      input.value = this.page.toString();
+    }
   }
 }

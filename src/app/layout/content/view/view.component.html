@@ -9,13 +9,19 @@
       #carousel
       [interval]="0"
       [showNavigationIndicators]="showNavigationIndicators"
+      [showNavigationArrows]="true"
     >
       <ng-template ngbSlide *ngFor="let card of flashcard.cards; let i = index">
-        <div class="card-container">
-          <div class="carousel-caption">
+        <div
+          class="card-container"
+          [class.flipped]="isFlipped[i]"
+          (click)="toggleFlip(i)"
+        >
+          <div class="carousel-content card-front">
             <h3>{{ card.term }}</h3>
           </div>
-          <div class="carousel-description">
+
+          <div class="carousel-content card-back">
             <h3>{{ card.description }}</h3>
           </div>
         </div>
@@ -29,8 +35,7 @@
       [boundaryLinks]="true"
     >
       <ng-template ngbPaginationPages let-page let-pages="pages">
-        @if (pages.length > 0) {
-        <li class="ngb-custom-pages-item">
+        <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
           <div class="mb-3 d-flex flex-nowrap px-2">
             <label
               id="paginationInputLabel"
@@ -60,7 +65,6 @@
             >
           </div>
         </li>
-        }
       </ng-template>
     </ngb-pagination>
   </div>
