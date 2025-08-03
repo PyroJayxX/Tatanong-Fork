@@ -10,15 +10,9 @@ const routeConfig: Routes = [
     title: 'Home Page',
   },
   {
-    path: 'construct',
+    path: 'construct/:editID',
     component: ConstructComponent,
-    title: 'Flascard Construct',
-  },
-  {
-    // To be removed
-    path: 'view',
-    component: ViewComponent,
-    title: 'View Flashcards',
+    title: 'Flashcard Construct',
   },
   {
     path: 'view/:searchID',

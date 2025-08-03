@@ -45,6 +45,7 @@ export class ViewComponent {
       next: (data: any) => {
         this.ngZone.run(() => {
           this.flashcard = data;
+          console.log(data);
           // Initialize arrays after data is loaded
           this.showDescription = new Array(this.flashcard.cards.length).fill(
             false

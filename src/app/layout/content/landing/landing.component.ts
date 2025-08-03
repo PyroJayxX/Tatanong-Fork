@@ -62,87 +62,79 @@ export class LandingComponent {
     this.landingSpan.style.color = '#26ace1';
   }
 
-  fetchFlashcard(event: Event) {
-    event.preventDefault();
-    const searchID: string = (event.target as HTMLFormElement)['searchID']
-      ?.value;
+  fetchFlashcard(searchID: string) {
     const apiUrl: string = HOST_URL + `/api/cardset/search/${searchID}`;
 
     this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.passToView(searchID);
       },
       error: (error) => {
         alert('Flashcard deck not found'); // TODO: Create a 404 page and redirect to it
+        console.log(apiUrl);
         console.log(error);
       },
     });
   }
 
-  passToView(searchID: any) {
+  passToView(searchID: string) {
     this.router.navigate(['/view', searchID]);
   }
 
-  checkSearchID(searchID: string): boolean {
-    let result: boolean = true;
+  passToConstruct(editID: string) {
+    this.router.navigate(['/construct', editID]);
+  }
+
+  passToTest() {
+    this.router.navigate(['/construct']);
+  }
+
+  checkSearchID(searchID: string): Promise<boolean> {
     const apiUrl: string = HOST_URL + `/api/cardset/search/${searchID}`;
 
-    this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        result = true;
-      },
-      error: (error) => {
-        // if not found
-        console.log(error);
-        result = false;
-      },
+    return new Promise((resolve) => {
+      this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+        next: (data: any) => {
+          resolve(true); // ID exists
+        },
+        error: (error) => {
+          resolve(false); // ID does not exist
+        },
+      });
     });
-
-    return result;
   }
 
-  checkEditID(editID: string): boolean {
-    let result: boolean = true;
+  checkEditID(editID: string): Promise<boolean> {
     const apiUrl: string = HOST_URL + `/api/cardset/edit/${editID}`;
 
-    this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        result = true;
-      },
-      error: (error) => {
-        // if not found
-        console.log(error);
-        result = false;
-      },
+    return new Promise((resolve) => {
+      this.flashcardService.getFlashcardDeck(apiUrl, {}).subscribe({
+        next: (data: any) => {
+          resolve(true); // ID exists
+        },
+        error: (error) => {
+          resolve(false); // ID does not exist
+        },
+      });
     });
-
-    return result;
   }
 
-  createFlashcard(event: Event) {
-    event.preventDefault();
+  async createFlashcard(flashcardName: string) {
     let isUnique: boolean = false;
 
-    while (!isUnique) {
+    do {
       this.flashcardTemplate.searchID = this.generateRandomId(6);
       this.flashcardTemplate.editID = this.generateRandomId(8);
 
-      const searchIDExists = this.checkSearchID(
-        this.flashcardTemplate.searchID
-      );
-      const editIDExists = this.checkEditID(this.flashcardTemplate.editID);
+      const [searchIDExists, editIDExists] = await Promise.all([
+        this.checkSearchID(this.flashcardTemplate.searchID),
+        this.checkEditID(this.flashcardTemplate.editID),
+      ]);
 
-      if (!searchIDExists && !editIDExists) {
-        isUnique = true;
-      }
-    }
+      isUnique = !searchIDExists && !editIDExists;
+    } while (!isUnique);
 
-    this.flashcardTemplate.title = (event.target as HTMLFormElement)[
-      'flashcard_name'
-    ]?.value;
+    this.flashcardTemplate.title = flashcardName;
 
     const apiUrl: string = HOST_URL + `/api/new`;
 
@@ -150,6 +142,7 @@ export class LandingComponent {
       .addFlashcardDeck(apiUrl, this.flashcardTemplate)
       .subscribe({
         next: (data) => {
+          this.passToConstruct(this.flashcardTemplate.editID);
           console.log(data);
         },
         error: (error) => {

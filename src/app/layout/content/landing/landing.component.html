@@ -34,18 +34,20 @@
             Enter your flashcard ID to begin (e.g., a012lm)
           </p>
           <div class="input-bar">
-            <form (submit)="fetchFlashcard($event)">
+            <div>
               <input
                 id="search_bar"
+                #search_bar
+                (keydown.enter)="fetchFlashcard(search_bar.value)"
                 autofocus
                 name="searchID"
                 type="text"
                 placeholder="Flashcard Search ID..."
               />
-              <button type="submit">
+              <button (click)="fetchFlashcard(search_bar.value)">
                 <img src="/images/search.png" alt="Search" />
               </button>
-            </form>
+            </div>
           </div>
         </ng-template>
       </div>
@@ -73,7 +75,7 @@
               type="text"
               placeholder="Flashcard Edit ID..."
             />
-            <button>
+            <button (click)="passToTest()">
               <img src="/images/edit.png" alt="Edit" />
             </button>
           </div>
@@ -98,15 +100,18 @@
             Enter your flashcard name to create a new set (e.g., 'Science 101')
           </p>
           <div class="input-bar">
-            <form (submit)="createFlashcard($event)">
+            <div>
               <input
                 id="create_bar"
+                #create_bar
+                (keydown.enter)="createFlashcard(create_bar.value)"
                 type="text"
                 name="flashcard_name"
+                value=""
                 placeholder="Flashcard Name..."
               />
-              <button><img src="/images/create.png" alt="Create" /></button>
-            </form>
+              <button (click)="createFlashcard(create_bar.value)"><img src="/images/create.png" alt="Create" /></button>
+            </div>
           </div>
         </ng-template>
       </div>
