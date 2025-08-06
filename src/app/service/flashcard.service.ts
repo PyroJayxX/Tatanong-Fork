@@ -25,4 +25,4 @@ export class FlashcardService {
   };
 }
 
-export const HOST_URL = 'http://localhost:5000';
+export const HOST_URL = 'http://tatanong-server.vercel.app';
