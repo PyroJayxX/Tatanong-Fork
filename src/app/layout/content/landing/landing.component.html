@@ -34,7 +34,6 @@
             Enter your flashcard ID to begin (e.g., a012lm)
           </p>
           <div class="input-bar">
-            <div>
               <input
                 id="search_bar"
                 #search_bar
@@ -47,7 +46,6 @@
               <button (click)="fetchFlashcard(search_bar.value)">
                 <img src="/images/search.png" alt="Search" />
               </button>
-            </div>
           </div>
         </ng-template>
       </div>
@@ -75,7 +73,7 @@
               type="text"
               placeholder="Flashcard Edit ID..."
             />
-            <button (click)="passToTest()">
+            <button (click)="passToConstruct('12345')">
               <img src="/images/edit.png" alt="Edit" />
             </button>
           </div>
@@ -100,7 +98,6 @@
             Enter your flashcard name to create a new set (e.g., 'Science 101')
           </p>
           <div class="input-bar">
-            <div>
               <input
                 id="create_bar"
                 #create_bar
@@ -112,7 +109,6 @@
               />
               <button (click)="createFlashcard(create_bar.value)"><img src="/images/create.png" alt="Create" /></button>
             </div>
-          </div>
         </ng-template>
       </div>
     </div>

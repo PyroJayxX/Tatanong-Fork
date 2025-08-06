@@ -85,10 +85,6 @@ export class LandingComponent {
     this.router.navigate(['/construct', editID]);
   }
 
-  passToTest() {
-    this.router.navigate(['/construct']);
-  }
-
   checkSearchID(searchID: string): Promise<boolean> {
     const apiUrl: string = HOST_URL + `/api/cardset/search/${searchID}`;
 

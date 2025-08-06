@@ -47,15 +47,10 @@ input,
 }
 
 .input-bar {
+  display: flex;
   background-color: #f1f1f1;
   padding: 8px 10px;
   border-radius: 10px;
-
-  form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 
   input {
     background: none;
